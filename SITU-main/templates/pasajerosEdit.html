@@ -1,0 +1,29 @@
+{% extends "./base.html" %}
+{% block title %}
+    SITU - Editar Pasajero
+{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <h2 class="mb-4"><i class="fas fa-user-edit"></i> Editar Pasajero</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form }}
+                    <hr>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="{% url 'pasajeros' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Actualizar Pasajero
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

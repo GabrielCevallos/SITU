@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Viajes - SITU{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1><i class="fas fa-map-location-dot"></i> Listado de Viajes</h1>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="{% url 'viajesCreate' %}" class="btn btn-success btn-lg">
+                <i class="fas fa-plus"></i> Agregar Viaje
+            </a>
+        </div>
+    </div>
+
+    {% if viajes %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Pasajero</th>
+                    <th>Bus</th>
+                    <th>Costo</th>
+                    <th>Cantidad</th>
+                    <th>Tipo</th>
+                    <th>Efectivo</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for viaje in viajes %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ viaje.pasajero.nombre }}</td>
+                    <td>{{ viaje.bus.placa }}</td>
+                    <td>${{ viaje.costo }}</td>
+                    <td>{{ viaje.cantidad }}</td>
+                    <td>
+                        {% if viaje.tipo == 'ida' %}
+                        <span class="badge bg-info">Ida</span>
+                        {% elif viaje.tipo == 'vuelta' %}
+                        <span class="badge bg-warning">Vuelta</span>
+                        {% else %}
+                        <span class="badge bg-success">Ida y Vuelta</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if viaje.efectivo %}
+                        <i class="fas fa-check text-success"></i>
+                        {% else %}
+                        <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'viajesEdit' viaje.id %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="{% url 'viajesDelete' viaje.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este viaje?')">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center" role="alert">
+        <i class="fas fa-info-circle"></i> No hay viajes registrados. <a href="{% url 'viajesCreate' %}">Agregar el primer viaje</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
